@@ -21,6 +21,7 @@
     <meta name="twitter:title" content="Recally - English Reading, Listening and Vocabulary App">
     <meta name="twitter:description" content="Improve reading, listening, and vocabulary with one English learning app.">
     <meta name="twitter:image" content="https://recally.getgrowly.co/app-home.png">
+    <meta name="apple-itunes-app" content="app-id=6758665422, app-argument=https://apps.apple.com/tr/app/recally-english-listen-read/id6758665422">
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -53,7 +54,7 @@
                     "name": "What is Recally?",
                     "acceptedAnswer": {
                         "@type": "Answer",
-                        "text": "Recally is an English learning app that combines graded reading, listening practice, instant word translations, saved vocabulary decks, and mini quizzes in one place."
+                        "text": "Recally is an English learning app that combines graded reading, listening practice, instant word translations, saved vocabulary review, and mini quizzes in one place."
                     }
                 },
                 {
@@ -94,6 +95,10 @@
 
         html {
             scroll-behavior: smooth;
+        }
+
+        section[id] {
+            scroll-margin-top: 6.5rem;
         }
 
         body {
@@ -194,6 +199,55 @@
             }
         }
     </style>
+    <script>
+        (function () {
+            var params = new URLSearchParams(window.location.search);
+            if (params.get('no_redirect') === '1') {
+                try {
+                    localStorage.setItem('recally-store-redirect-disabled', '1');
+                } catch (error) {}
+                return;
+            }
+
+            var path = window.location.pathname;
+            var isHome = path === '/' || path.endsWith('/index.html');
+            if (!isHome) return;
+
+            var botPattern = /bot|crawler|spider|facebookexternalhit|slurp|preview/i;
+            if (botPattern.test(navigator.userAgent)) return;
+
+            try {
+                if (localStorage.getItem('recally-store-redirect-disabled') === '1') {
+                    return;
+                }
+            } catch (error) {}
+
+            var ua = navigator.userAgent || '';
+            var isAndroid = /Android/i.test(ua);
+            var isIOS = /iPhone|iPad|iPod/i.test(ua);
+            if (!isAndroid && !isIOS) return;
+
+            var targetUrl = isIOS
+                ? 'https://apps.apple.com/tr/app/recally-english-listen-read/id6758665422'
+                : 'https://play.google.com/store/apps/details?id=co.getgrowly.recally';
+
+            window.addEventListener('DOMContentLoaded', function () {
+                var dismissButton = document.getElementById('dismiss-store-redirect');
+                if (dismissButton) {
+                    dismissButton.hidden = false;
+                    dismissButton.addEventListener('click', function () {
+                        try {
+                            localStorage.setItem('recally-store-redirect-disabled', '1');
+                        } catch (error) {}
+                    });
+                }
+
+                window.setTimeout(function () {
+                    window.location.replace(targetUrl);
+                }, 1200);
+            });
+        }());
+    </script>
 </head>
 <body>
     <header class="sticky top-0 z-50 border-b border-white/10 bg-slate-950/70 backdrop-blur-xl">
@@ -235,6 +289,9 @@
                             <a href="https://play.google.com/store/apps/details?id=co.getgrowly.recally" class="transition hover:opacity-90" target="_blank" rel="noopener noreferrer" aria-label="Get Recally on Google Play">
                                 <img src="google-play-badge.svg" alt="Get it on Google Play" class="h-[60px] w-auto">
                             </a>
+                            <button id="dismiss-store-redirect" type="button" class="hidden text-left text-sm font-medium text-slate-400 transition hover:text-white">
+                                Stay on website
+                            </button>
                         </div>
                         <div class="mt-8 grid max-w-2xl grid-cols-1 gap-4 text-sm text-slate-300 sm:grid-cols-3">
                             <div class="rounded-2xl border border-white/10 bg-white/5 px-4 py-4">
@@ -312,7 +369,7 @@
                             </svg>
                         </div>
                         <h3 class="text-2xl font-bold text-white">Tap for translations</h3>
-                        <p class="mt-3 text-slate-300">See the meaning of unknown words in context and add them directly into your personal deck.</p>
+                        <p class="mt-3 text-slate-300">See the meaning of unknown words in context and save them directly for later review.</p>
                     </article>
                     <article class="soft-card rounded-[1.75rem] p-7">
                         <div class="mb-5 inline-flex rounded-2xl bg-cyan-300/12 p-3 text-cyan-300">
@@ -350,7 +407,7 @@
                                 </li>
                                 <li class="flex gap-3">
                                     <span class="mt-1 h-2.5 w-2.5 rounded-full bg-amber-300"></span>
-                                    Add useful words to a deck and review them with quick quizzes.
+                                    Save useful words for later review and revisit them with quick quizzes.
                                 </li>
                                 <li class="flex gap-3">
                                     <span class="mt-1 h-2.5 w-2.5 rounded-full bg-cyan-300"></span>
@@ -381,7 +438,7 @@
             <div class="section-shell mx-auto grid gap-6 lg:grid-cols-3">
                 <article class="glass rounded-[1.75rem] p-8 lg:col-span-2">
                     <p class="text-sm font-bold uppercase tracking-[0.28em] text-teal-300">SEO content block</p>
-                    <h2 class="mt-4 text-4xl font-bold text-white">Recally is built for learners searching for an English reading app, not just another flashcard tool.</h2>
+                    <h2 class="mt-4 text-4xl font-bold text-white">Recally is built for learners searching for an English reading app, not just another generic study tool.</h2>
                     <div class="mt-6 space-y-5 text-lg leading-8 text-slate-300">
                         <p>
                             Many English learners look for ways to learn vocabulary through stories, improve listening with readable content, and practice every day without a heavy classroom routine. Recally addresses that exact need with mobile-first reading sessions, built-in comprehension support, and review loops.
@@ -407,26 +464,26 @@
         <section class="px-4 py-20 sm:px-6 lg:px-8">
             <div class="section-shell mx-auto">
                 <div class="max-w-3xl">
-                    <p class="text-sm font-bold uppercase tracking-[0.32em] text-teal-300">Learner feedback</p>
-                    <h2 class="mt-4 text-4xl font-bold text-white sm:text-5xl">Why this format works for real English learners.</h2>
+                    <p class="text-sm font-bold uppercase tracking-[0.32em] text-teal-300">Learner scenarios</p>
+                    <h2 class="mt-4 text-4xl font-bold text-white sm:text-5xl">How different English learners use Recally.</h2>
                     <p class="mt-5 text-lg leading-8 text-slate-300">
-                        Learners usually stay consistent when the workflow is short and contextual. Reading, listening, and vocabulary review happen inside the same product loop.
+                        These examples show the kinds of study flows Recally supports. They are usage scenarios, not direct customer quotes.
                     </p>
                 </div>
                 <div class="mt-12 grid gap-6 lg:grid-cols-3">
                     <article class="glass rounded-[1.75rem] p-8">
                         <div class="text-sm font-bold uppercase tracking-[0.18em] text-amber-200">A2 learner</div>
-                        <p class="mt-5 text-lg leading-8 text-slate-200">“I used to save English words in notes and forget them. Recally made it easier because I meet the word in a story, tap it, and review it later.”</p>
+                        <p class="mt-5 text-lg leading-8 text-slate-200">A learner who usually saves words in notes can instead discover them inside a story, tap for meaning, and review them later without leaving the reading flow.</p>
                         <p class="mt-6 text-sm text-slate-400">Focused on reading fluency and daily vocabulary review.</p>
                     </article>
                     <article class="glass rounded-[1.75rem] p-8">
                         <div class="text-sm font-bold uppercase tracking-[0.18em] text-violet-300">B1 learner</div>
-                        <p class="mt-5 text-lg leading-8 text-slate-200">“The audio plus text combination helps me notice pronunciation while reading. That made it useful as both an English reading app and a listening app.”</p>
+                        <p class="mt-5 text-lg leading-8 text-slate-200">A learner who wants both text and narration can use the same session for reading practice and listening support, which helps connect spelling with pronunciation.</p>
                         <p class="mt-6 text-sm text-slate-400">Used for reading-listening practice during commute sessions.</p>
                     </article>
                     <article class="glass rounded-[1.75rem] p-8">
                         <div class="text-sm font-bold uppercase tracking-[0.18em] text-cyan-300">Vocabulary focus</div>
-                        <p class="mt-5 text-lg leading-8 text-slate-200">“Mini quizzes are short enough to repeat every day. That matters more than big study plans I never finish.”</p>
+                        <p class="mt-5 text-lg leading-8 text-slate-200">A learner with limited time can use short quiz loops for lightweight daily repetition instead of relying on long study plans that are hard to maintain.</p>
                         <p class="mt-6 text-sm text-slate-400">Used for lightweight daily repetition and retention.</p>
                     </article>
                 </div>
